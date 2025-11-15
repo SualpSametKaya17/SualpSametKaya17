@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Send, Loader2 } from "lucide-react";
 import axios from "axios";
+import MarkdownRenderer from "./MarkdownRenderer";
 
 interface Message {
   role: "user" | "assistant";
@@ -132,9 +133,15 @@ export default function ChatInterface() {
                     : "bg-white border border-gray-200 text-gray-800"
                 }`}
               >
-                <div className="whitespace-pre-wrap break-words">
-                  {message.content}
-                </div>
+                {message.role === "user" ? (
+                  <div className="whitespace-pre-wrap break-words">
+                    {message.content}
+                  </div>
+                ) : (
+                  <div className="markdown-content">
+                    <MarkdownRenderer content={message.content} />
+                  </div>
+                )}
                 <div
                   className={`text-xs mt-2 ${
                     message.role === "user" ? "text-blue-100" : "text-gray-400"
